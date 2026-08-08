@@ -76,7 +76,6 @@
 
     <nav class="nav" id="nav" aria-label="Main">
       <a href="#craft">The craft</a>
-      <a href="#proof">See it</a>
       <a href="#services">Services</a>
       <a href="#process">Process</a>
       <a href="#areas">Areas</a>
@@ -114,11 +113,6 @@
 
   <div class="hero__body wrap">
     <div class="hero__col" data-parallax-scene>
-      <p class="eyebrow reveal" data-depth="14">
-        <span class="eyebrow__dot" aria-hidden="true"></span>
-        Certified PDR Technician · Boksburg
-      </p>
-
       <h1 class="hero__h1 reveal" data-depth="26">
         <span class="line"><span class="w">Dents</span> <span class="w">happen.</span></span>
         <span class="line"><span class="w">We make them</span></span>
@@ -210,52 +204,11 @@
   </div>
 </section>
 
-<!-- ============ 3D PROOF ============ -->
-<section class="sec proof" id="proof">
-  <div class="wrap">
-    <header class="sechead">
-      <p class="kicker reveal">02 — See it happen</p>
-      <h2 class="h2 reveal">The reflection<br>never <span class="grad">lies.</span></h2>
-      <p class="lede lede--center reveal">
-        This is a real-time 3D render of a steel panel under a PDR reflector board — the same
-        striped light a technician reads a dent with. Drag the slider and watch the lines
-        straighten as the metal is worked back to shape.
-      </p>
-    </header>
-
-    <div class="stage reveal" data-tilt data-tilt-max="4">
-      <div class="stage__canvaswrap">
-        <canvas id="dentCanvas" aria-label="3D visualisation of a dented metal panel being repaired" role="img"></canvas>
-        <noscript><img src="assets/img/poster-desktop.jpg" alt="Paintless dent removal in progress"></noscript>
-        <div class="stage__fallback" id="stageFallback" hidden>
-          <img src="assets/img/poster-desktop.jpg" alt="Paintless dent removal in progress" loading="lazy">
-        </div>
-        <div class="stage__hud" aria-hidden="true">
-          <span class="stage__hud-dot"></span>
-          <span id="hudLabel">DENT DETECTED</span>
-        </div>
-        <div class="stage__corner stage__corner--tl" aria-hidden="true"></div>
-        <div class="stage__corner stage__corner--tr" aria-hidden="true"></div>
-        <div class="stage__corner stage__corner--bl" aria-hidden="true"></div>
-        <div class="stage__corner stage__corner--br" aria-hidden="true"></div>
-      </div>
-
-      <div class="stage__ctrl">
-        <label for="repair" class="stage__lbl">Repair progress</label>
-        <input type="range" id="repair" min="0" max="100" value="0" step="0.5"
-               aria-describedby="repairOut">
-        <output id="repairOut" for="repair">0%</output>
-      </div>
-      <p class="stage__hint">Drag the slider — or leave it, it runs on its own.</p>
-    </div>
-  </div>
-</section>
-
 <!-- ============ BENEFITS ============ -->
 <section class="sec benefits" id="why">
   <div class="wrap">
     <header class="sechead">
-      <p class="kicker reveal">03 — Why paintless</p>
+      <p class="kicker reveal">02 — Why paintless</p>
       <h2 class="h2 reveal">Three reasons it<br>beats the <span class="grad">body shop.</span></h2>
     </header>
 
@@ -300,40 +253,99 @@
 <section class="sec services" id="services">
   <div class="wrap">
     <header class="sechead">
-      <p class="kicker reveal">04 — What gets fixed</p>
+      <p class="kicker reveal">03 — What gets fixed</p>
       <h2 class="h2 reveal">Small dent or big,<br>we've <span class="grad">got you covered.</span></h2>
     </header>
 
     <ul class="svc">
       <li class="svc__i reveal" data-tilt data-tilt-max="6">
-        <span class="svc__n">01</span>
-        <h3>Door dings &amp; parking dents</h3>
-        <p>The classic car-park special. Sharp little dents in doors and quarter panels — the bread and butter of PDR.</p>
+        <figure class="svc__fig">
+          <img src="assets/img/services/door-dings-1000.jpg"
+               srcset="assets/img/services/door-dings-600.jpg 600w, assets/img/services/door-dings-1000.jpg 1000w"
+               sizes="(min-width: 1100px) 33vw, (min-width: 700px) 50vw, 92vw"
+               alt="Two cars parked tight in an underground car park, one door swung against the next"
+               width="1000" height="612" loading="lazy" decoding="async">
+        </figure>
+        <div class="svc__body">
+          <span class="svc__n">01</span>
+          <h3>Door dings &amp; parking dents</h3>
+          <p>The classic car-park special. Sharp little dents in doors and quarter panels — the bread and butter of PDR.</p>
+        </div>
       </li>
+
       <li class="svc__i reveal" data-tilt data-tilt-max="6">
-        <span class="svc__n">02</span>
-        <h3>Hail damage</h3>
-        <p>Roofs, bonnets and boots peppered with dents. Repaired panel by panel without a single drop of paint.</p>
+        <figure class="svc__fig">
+          <img src="assets/img/services/hail-damage-1000.jpg"
+               srcset="assets/img/services/hail-damage-600.jpg 600w, assets/img/services/hail-damage-1000.jpg 1000w"
+               sizes="(min-width: 1100px) 33vw, (min-width: 700px) 50vw, 92vw"
+               alt="Rain beading across a dark car bonnet dimpled with hail dents"
+               width="1000" height="612" loading="lazy" decoding="async">
+        </figure>
+        <div class="svc__body">
+          <span class="svc__n">02</span>
+          <h3>Hail damage</h3>
+          <p>Roofs, bonnets and boots peppered with dents. Repaired panel by panel without a single drop of paint.</p>
+        </div>
       </li>
+
       <li class="svc__i reveal" data-tilt data-tilt-max="6">
-        <span class="svc__n">03</span>
-        <h3>Creases &amp; body lines</h3>
-        <p>Long creases and damage running through a swage line — the technical work. Slow, patient, methodical.</p>
+        <figure class="svc__fig">
+          <img src="assets/img/services/creases-1000.jpg"
+               srcset="assets/img/services/creases-600.jpg 600w, assets/img/services/creases-1000.jpg 1000w"
+               sizes="(min-width: 1100px) 33vw, (min-width: 700px) 50vw, 92vw"
+               alt="Technician working a PDR rod along the body line of a silver door"
+               width="1000" height="612" loading="lazy" decoding="async">
+        </figure>
+        <div class="svc__body">
+          <span class="svc__n">03</span>
+          <h3>Creases &amp; body lines</h3>
+          <p>Long creases and damage running through a swage line — the technical work. Slow, patient, methodical.</p>
+        </div>
       </li>
+
       <li class="svc__i reveal" data-tilt data-tilt-max="6">
-        <span class="svc__n">04</span>
-        <h3>Trolley &amp; knock dents</h3>
-        <p>Shopping trolleys, bicycle handlebars, garage doors, stray cricket balls. If the paint's intact, it can go.</p>
+        <figure class="svc__fig">
+          <img src="assets/img/services/trolley-dents-1000.jpg"
+               srcset="assets/img/services/trolley-dents-600.jpg 600w, assets/img/services/trolley-dents-1000.jpg 1000w"
+               sizes="(min-width: 1100px) 33vw, (min-width: 700px) 50vw, 92vw"
+               alt="Abandoned shopping trolley resting against a car in a wet supermarket car park at night"
+               width="1000" height="612" loading="lazy" decoding="async">
+        </figure>
+        <div class="svc__body">
+          <span class="svc__n">04</span>
+          <h3>Trolley &amp; knock dents</h3>
+          <p>Shopping trolleys, bicycle handlebars, garage doors, stray cricket balls. If the paint's intact, it can go.</p>
+        </div>
       </li>
+
       <li class="svc__i reveal" data-tilt data-tilt-max="6">
-        <span class="svc__n">05</span>
-        <h3>Pre-sale &amp; trade-in prep</h3>
-        <p>Clean the panels up before valuation. Dent-free bodywork reads as a cared-for car — and prices like one.</p>
+        <figure class="svc__fig">
+          <img src="assets/img/services/pre-sale-prep-1000.jpg"
+               srcset="assets/img/services/pre-sale-prep-600.jpg 600w, assets/img/services/pre-sale-prep-1000.jpg 1000w"
+               sizes="(min-width: 1100px) 33vw, (min-width: 700px) 50vw, 92vw"
+               alt="Detailer buffing the rear quarter of a blue car in a workshop"
+               width="1000" height="612" loading="lazy" decoding="async">
+        </figure>
+        <div class="svc__body">
+          <span class="svc__n">05</span>
+          <h3>Pre-sale &amp; trade-in prep</h3>
+          <p>Clean the panels up before valuation. Dent-free bodywork reads as a cared-for car — and prices like one.</p>
+        </div>
       </li>
+
       <li class="svc__i reveal" data-tilt data-tilt-max="6">
-        <span class="svc__n">06</span>
-        <h3>Mobile — we come to you</h3>
-        <p>Home, office or workplace. The tools travel; you don't. Quick, convenient and hassle-free.</p>
+        <figure class="svc__fig">
+          <img src="assets/img/services/mobile-service-1000.jpg"
+               srcset="assets/img/services/mobile-service-600.jpg 600w, assets/img/services/mobile-service-1000.jpg 1000w"
+               sizes="(min-width: 1100px) 33vw, (min-width: 700px) 50vw, 92vw"
+               alt="Technician reading a panel with a lit reflector board beside an open tool van on a suburban street"
+               width="1000" height="612" loading="lazy" decoding="async">
+        </figure>
+        <div class="svc__body">
+          <span class="svc__n">06</span>
+          <h3>Mobile — we come to you</h3>
+          <p>Home, office or workplace. The tools travel; you don't. Quick, convenient and hassle-free.</p>
+        </div>
       </li>
     </ul>
   </div>
@@ -343,7 +355,7 @@
 <section class="sec process" id="process">
   <div class="wrap">
     <header class="sechead">
-      <p class="kicker reveal">05 — How it works</p>
+      <p class="kicker reveal">04 — How it works</p>
       <h2 class="h2 reveal">Four steps.<br>Zero <span class="grad">paint.</span></h2>
     </header>
 
@@ -384,7 +396,7 @@
 <section class="sec areas" id="areas">
   <div class="wrap grid2 grid2--tight">
     <div>
-      <p class="kicker reveal">06 — Coverage</p>
+      <p class="kicker reveal">05 — Coverage</p>
       <h2 class="h2 reveal">Proudly serving<br><span class="grad">Boksburg</span> &amp; around.</h2>
       <p class="lede reveal">
         A mobile paintless dent removal service based in Boksburg, covering the wider East Rand.
@@ -408,7 +420,7 @@
 <section class="sec faq" id="faq">
   <div class="wrap">
     <header class="sechead">
-      <p class="kicker reveal">07 — Questions</p>
+      <p class="kicker reveal">06 — Questions</p>
       <h2 class="h2 reveal">Straight <span class="grad">answers.</span></h2>
     </header>
 
@@ -446,7 +458,7 @@
   <div class="wrap">
     <div class="quote__box reveal" data-tilt data-tilt-max="4">
       <div class="quote__copy">
-        <p class="kicker">08 — Get a quote</p>
+        <p class="kicker">07 — Get a quote</p>
         <h2 class="h2 h2--sm">Send the dent.<br>Get a <span class="grad">real price.</span></h2>
         <p class="lede">
           Fill this in and it opens WhatsApp with your details already typed —
@@ -515,7 +527,6 @@
     <nav class="ftr__nav" aria-label="Footer">
       <h4>Site</h4>
       <a href="#craft">The craft</a>
-      <a href="#proof">See it</a>
       <a href="#services">Services</a>
       <a href="#process">Process</a>
       <a href="#faq">FAQ</a>
@@ -544,10 +555,6 @@
   <span class="wa__label">Chat on WhatsApp</span>
 </a>
 
-<script type="importmap">
-{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js" } }
-</script>
 <script src="assets/js/main.js" defer></script>
-<script type="module" src="assets/js/dent3d.js"></script>
 </body>
 </html>

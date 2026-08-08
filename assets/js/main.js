@@ -430,18 +430,6 @@
     var yr = document.getElementById('yr');
     if (yr) yr.textContent = new Date().getFullYear();
 
-    // range fill for webkit
-    var range = document.getElementById('repair');
-    var out = document.getElementById('repairOut');
-    if (range) {
-      var paint = function () {
-        range.style.setProperty('--pct', range.value + '%');
-        if (out) out.textContent = Math.round(range.value) + '%';
-      };
-      range.addEventListener('input', paint);
-      paint();
-    }
-
     // ticker: duplicate content is authored in markup; pause when off-screen
     var ticker = document.querySelector('.ticker__track');
     if (ticker && 'IntersectionObserver' in window) {

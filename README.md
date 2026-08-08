@@ -31,32 +31,12 @@ robots.txt
 assets/
   css/styles.css        design system + all layout
   js/main.js            reveals, 3D tilt, parallax, WhatsApp wiring, forms
-  js/dent3d.js          WebGL dent/reflector-board demo (ES module)
   img/                  logo variants, icons, posters, OG image
+  img/services/         "What gets fixed" card photography (600w + 1000w)
   video/                cropped, web-optimised hero videos
 src/                    original client masters (untouched, kept for reference)
+"What gets fixed"/      original service photography, as supplied
 ```
-
----
-
-## The 3D piece
-
-`assets/js/dent3d.js` renders a steel panel sitting under a **PDR reflector board** —
-the striped light a technician actually reads a dent with. Drag the slider and the
-reflected lines straighten as the metal is worked back to shape.
-
-Implementation notes:
-
-- The dent is displaced **analytically in the vertex shader** (`onBeforeCompile` on a
-  `MeshPhysicalMaterial`), including the derived surface normal. Nothing is recomputed
-  on the CPU per frame — the whole repair animation is one uniform.
-- The dent profile is a gaussian dip plus a raised rim, which is how sheet metal
-  actually deforms; a faint factory "crown" keeps the panel from reading as dead-flat CG.
-- The environment map is generated procedurally into a canvas (striped board, cool rim
-  light, brand-red kicker) and run through `PMREMGenerator` — so there is no HDR file
-  to download.
-- Three.js is loaded from a CDN via an import map. If it fails to load, if WebGL is
-  unavailable, or if the context is lost, the section falls back to a still image.
 
 ---
 
@@ -77,14 +57,28 @@ same proportional crop was applied anyway so the two cuts stay consistent.
 `assets/js/main.js` picks the cut at runtime from `matchMedia`, skips the video entirely
 on `prefers-reduced-motion` or Save-Data, and pauses it when off-screen.
 
+### Service photography
+
+The five supplied images (`1408×768`) carry the same star watermark, in an identical
+spot on every one: `x 1265–1311, y 624–673`. All are cropped to `1256×768` — taking it
+off the right edge costs 10% of the frame, where cropping the bottom would have cost 19%.
+
+Delivered at 600w and 1000w with `srcset`, lazy-loaded below the fold.
+
+"Creases & body lines" had no supplied photo, so its card uses a frame from the client's
+own hero footage (already watermark-free) showing a rod worked along a door's swage
+line. Drop a sixth photo in and swap the `creases-*.jpg` pair to replace it.
+
 ---
 
 ## Accessibility & resilience
 
 - Content is **never** gated behind an observer — reveals use a rect sweep, and the
   hiding CSS is scoped to `.js` so a JS failure leaves a fully readable page.
-- `prefers-reduced-motion` disables the grain, ticker, parallax, tilt, video and the
-  3D auto-animation.
+- `prefers-reduced-motion` disables the grain, ticker, parallax, tilt and video.
+- The service cards deliberately avoid `backdrop-filter` and `preserve-3d` inside their
+  clipped bounds. Six of those on screen at once tanks rasterisation — enough to hang a
+  software-rendered capture outright, which is a fair proxy for a mid-range phone.
 - Skip link, visible focus rings, labelled form fields, semantic landmarks,
   44px+ touch targets on coarse pointers.
 - `AutoBodyShop` JSON-LD with real service areas. Nothing invented — no fabricated
