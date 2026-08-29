@@ -1,0 +1,139 @@
+Subject: dentninja.co.za - DNS change request (please action the MX step first)
+
+
+Hi,
+
+We have a new website for dentninja.co.za. It is hosted on GitHub Pages, and we
+would like the domain pointed at it via DNS so that https://dentninja.co.za/
+serves the new site directly.
+
+Could you please make the DNS changes below on the dentninja.co.za zone.
+
+IMPORTANT: please do these in the order given. There is an email risk in step 2
+that is explained below, and it will bounce all incoming mail if the A records
+are changed first.
+
+Please note this must be a DNS change - not "domain forwarding", "URL
+forwarding" or "URL masking". Those would leave the visitor's address bar
+showing a github.io address or load the site inside a frame, which we
+specifically need to avoid. The records below keep the address bar on
+dentninja.co.za.
+
+
+------------------------------------------------------------------
+STEP 1 - REPOINT THE MX RECORD (please do this on its own, first)
+------------------------------------------------------------------
+
+The MX record currently points at the bare domain:
+
+    dentninja.co.za.   MX   0   dentninja.co.za.
+    dentninja.co.za.   A        196.41.122.211
+
+Because mail follows that MX to the domain's own A record, changing the A record
+in step 2 would send mail for justin@dentninja.co.za to GitHub, which runs no
+mail server. All incoming email would bounce.
+
+mail.dentninja.co.za already exists and already resolves to 196.41.122.211, so
+please change the MX to that hostname:
+
+    Type: MX
+    Name: dentninja.co.za
+    Value: mail.dentninja.co.za
+    Priority: 0
+
+The current TTL is 14400 (4 hours). Please allow that to expire and confirm mail
+is still being delivered normally before moving on to step 2.
+
+If it is easier, you are welcome to drop the TTL to 300 a day beforehand so the
+whole change can be completed quickly.
+
+
+------------------------------------------------------------------
+STEP 2 - POINT THE DOMAIN AT GITHUB PAGES
+------------------------------------------------------------------
+
+Please REMOVE the existing apex A record:
+
+    196.41.122.211
+
+and ADD these four A records on dentninja.co.za:
+
+    A    dentninja.co.za    185.199.108.153
+    A    dentninja.co.za    185.199.109.153
+    A    dentninja.co.za    185.199.110.153
+    A    dentninja.co.za    185.199.111.153
+
+All four are required - they are GitHub's load-balanced set, not alternatives.
+
+Optionally, please also add IPv6:
+
+    AAAA    dentninja.co.za    2606:50c0:8000::153
+    AAAA    dentninja.co.za    2606:50c0:8001::153
+    AAAA    dentninja.co.za    2606:50c0:8002::153
+    AAAA    dentninja.co.za    2606:50c0:8003::153
+
+
+------------------------------------------------------------------
+STEP 3 - POINT WWW AT GITHUB
+------------------------------------------------------------------
+
+www is currently a CNAME to the apex. Please change it to:
+
+    CNAME    www    obsidianstudiodesigns.github.io
+
+(A trailing dot may be needed depending on your control panel.)
+
+
+------------------------------------------------------------------
+PLEASE LEAVE THESE UNCHANGED
+------------------------------------------------------------------
+
+    - The MX record, after step 1
+    - The mail.dentninja.co.za A record (MX now depends on it)
+    - The SPF TXT record
+    - Any DKIM or DMARC records
+
+For reference, the current SPF is:
+
+    v=spf1 ip4:196.41.122.211 include:spamkill.cybersmart.co.za +a +mx ~all
+
+This stays valid after the change, because the mail server is listed explicitly
+as ip4:196.41.122.211 rather than only via the +a mechanism. Please leave it
+exactly as it is.
+
+
+------------------------------------------------------------------
+SUMMARY
+------------------------------------------------------------------
+
+    MX          dentninja.co.za    ->  mail.dentninja.co.za
+    A (apex)    196.41.122.211     ->  the four GitHub IPs above
+    CNAME www   dentninja.co.za    ->  obsidianstudiodesigns.github.io
+    Everything else                    unchanged
+
+
+------------------------------------------------------------------
+ONE THING WE NEED FROM YOU
+------------------------------------------------------------------
+
+The new site is a single page. If the current site has other pages that are
+indexed by Google (/about, /contact, /services and so on), those will return 404
+after the move and we will lose their search ranking.
+
+Could you please send us a list of the current site's live URLs, so we can set up
+redirects for them. If the current site is already a single page, please just
+confirm that and nothing further is needed.
+
+
+------------------------------------------------------------------
+
+Nothing else is required from your side after the DNS records are in - we will
+handle the certificate and HTTPS on the GitHub end.
+
+Could you please confirm once each step is done, and let us know if you need
+anything from us to authorise the change.
+
+Thanks very much,
+
+[Your name]
+[Your contact number]
