@@ -10,3 +10,4 @@ desktop.ini
 
 # node (not used today, but keeps the repo clean if tooling is added later)
 node_modules/
+dist/

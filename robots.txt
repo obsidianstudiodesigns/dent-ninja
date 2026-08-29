@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://obsidianstudiodesigns.github.io/dent-ninja/sitemap.xml
+Sitemap: https://dentninja.co.za/sitemap.xml
