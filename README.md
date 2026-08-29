@@ -211,8 +211,17 @@ Then open <http://localhost:5178>.
 
 ## Hosting
 
-Deployed with GitHub Pages from `main` (root):
+Deployed with GitHub Pages from `main` (root). Staging URL:
 **<https://obsidianstudiodesigns.github.io/dent-ninja/>**
+
+Production is the client's own domain, **dentninja.co.za**, pointed at Pages via
+DNS — the site is not copied to another host. All absolute URLs (canonical,
+`og:url`, JSON-LD, sitemap) already declare `https://dentninja.co.za/`.
+
+`DNS-SETUP.md` has the records for the DNS provider. The one thing to get right
+is the order: the MX record points at the bare domain, so it must be moved to
+`mail.dentninja.co.za` *before* the apex A record changes, or inbound mail routes
+to GitHub and bounces.
 
 All asset paths are relative, so the site also works unchanged from a subdirectory
 or from a custom domain.
