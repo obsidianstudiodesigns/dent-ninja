@@ -53,7 +53,7 @@
   --r-md:14px;
   --r-lg:22px;
 
-  --hdr-h:74px;
+  --hdr-h:86px;
 }
 
 /* ---------- reset ---------- */
@@ -238,10 +238,11 @@ button{background:none;border:0;cursor:pointer}
    The supplied logo is a wide badge â€” it turns to mush under 90px, so the
    wordmark is set in type instead and the mark carries the identity. */
 .brand{
-  display:flex;align-items:center;gap:.6rem;flex:none;
+  display:flex;align-items:center;gap:.5rem;flex:none;
   transition:transform .35s var(--ease-out);
 }
-.brand__mark{width:auto;height:clamp(32px,4.6vw,40px);flex:none}
+.brand__mark{width:auto;height:clamp(44px,5.6vw,56px);flex:none;
+  filter:drop-shadow(0 0 14px rgba(0,150,255,.30))}
 .brand__type{
   display:grid;line-height:1;
 }
@@ -846,7 +847,7 @@ button{background:none;border:0;cursor:pointer}
   padding-bottom:clamp(2.4rem,5vw,3.6rem);
 }
 .brand--lg{margin-bottom:1.2rem;gap:.75rem}
-.brand--lg .brand__mark{height:58px}
+.brand--lg .brand__mark{height:72px}
 .brand--lg .brand__type b,.brand--lg .brand__type em{font-size:1.55rem}
 .brand--lg .brand__type i{font-size:.52rem;letter-spacing:.2em}
 .ftr__brand p{color:var(--smoke);font-size:.92rem;max-width:38ch}
@@ -961,7 +962,7 @@ button{background:none;border:0;cursor:pointer}
 }
 
 @media (max-width:900px){
-  :root{--hdr-h:64px}
+  :root{--hdr-h:72px}
   .nav{
     position:fixed;inset:var(--hdr-h) 0 auto;
     flex-direction:column;align-items:stretch;gap:0;

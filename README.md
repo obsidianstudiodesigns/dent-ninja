@@ -58,6 +58,19 @@ make that work:
 WebP is the delivered format (`logo-neon.webp`, 211 KB vs 876 KB for the PNG),
 with the PNG as a `<picture>` fallback.
 
+### The nav mark
+
+The header uses the real artwork, not a redrawn version. `assets/img/logo-mark.png`
+is the ninja and its ring cropped out of the full logo, alpha-keyed the same way.
+Isolating it needed a directional fade rather than a straight cut — a row scan
+showed the ninja's tool and the "D" of DENT interleave between x 340–360, so no
+hard boundary separates them. A smoothstep fade from x 330 to 364 drops the
+wordmark while letting the tool dissolve, and a second elliptical falloff keeps
+the ring from being clipped.
+
+The header is 86 px so the mark can render at 44–56 px, which is where the
+figure stays readable. Below that it closes up (see Icons).
+
 ### Icons
 
 The detailed ninja turns to mush below about 48 px, so the favicon is a
@@ -77,7 +90,7 @@ robots.txt
 assets/
   css/styles.css        design system + all layout
   js/main.js            reveals, 3D tilt, parallax, WhatsApp wiring, forms
-  img/                  logo (alpha-keyed), icon set, posters, OG image
+  img/                  logo + nav mark (alpha-keyed), icon set, posters, OG image
   img/services/         "What gets fixed" card photography (600w + 1000w)
   video/                cropped, web-optimised hero videos
 src/                    original client masters (untouched, kept for reference)
