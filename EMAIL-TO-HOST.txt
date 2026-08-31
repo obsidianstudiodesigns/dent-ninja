@@ -1,5 +1,5 @@
 To:      support@cybersmart.co.za
-Subject: dentninja.co.za - DNS change request (please action the MX step first)
+Subject: dentninja.co.za - DNS change request (please action step 1 first)
 
 
 Good day,
@@ -26,28 +26,43 @@ specifically need to avoid.
 
 
 ------------------------------------------------------------------
-STEP 1 - REPOINT THE MX RECORD (please action on its own, first)
+STEP 1 - MAKE MAIL INDEPENDENT (please action on its own, first)
 ------------------------------------------------------------------
 
-The MX record currently points at the bare domain:
+The zone currently resolves mail through the domain's own A record, twice over:
 
-    dentninja.co.za.   MX   0   dentninja.co.za.
-    dentninja.co.za.   A        196.41.122.211
+    dentninja.co.za.        A       196.41.122.211
+    mail.dentninja.co.za.   CNAME   dentninja.co.za
+    dentninja.co.za.        MX  0   dentninja.co.za
 
-Because mail follows that MX to the domain's own A record, changing the A
-record in step 2 would route mail for the domain to GitHub, which runs no mail
-server, and all incoming email would bounce.
+Both the MX target and the mail hostname are CNAME/self-referential back to the
+apex. Changing the apex A record in step 2 would therefore route mail for the
+domain to GitHub, which runs no mail server, and all incoming email would
+bounce. Repointing MX alone would not help, because mail.dentninja.co.za is a
+CNAME to the apex and would follow it.
 
-Please change the MX to the dedicated mail hostname:
+Could you please make mail.dentninja.co.za an independent A record, and then
+point the MX at it:
 
-    Type:     MX
-    Name:     dentninja.co.za
-    Value:    mail.dentninja.co.za
-    Priority: 0
+    1. Delete the CNAME:   mail.dentninja.co.za  ->  dentninja.co.za
 
-mail.dentninja.co.za already exists and already resolves to 196.41.122.211, so
-no new record is needed for it. This is also the hostname given as our POP3 and
-SMTP server in your welcome email, so mail delivery is unaffected by the change.
+    2. Add an A record:
+           Name:    mail.dentninja.co.za
+           Type:    A
+           Value:   196.41.122.211
+           TTL:     300
+
+    3. Update the MX record:
+           Name:     dentninja.co.za
+           Type:     MX
+           Value:    mail.dentninja.co.za
+           Priority: 0
+           TTL:      300
+
+mail.dentninja.co.za is the POP3/SMTP hostname given in our welcome email, so
+this also brings the zone in line with your own documented mail settings. As a
+secondary benefit it resolves a standards issue, since an MX record should not
+resolve to a CNAME (RFC 2181).
 
 The current TTL is 14400 (4 hours). Please allow that to expire and confirm mail
 is still being delivered before moving on to step 2. If it is easier, you are
@@ -96,7 +111,9 @@ PLEASE LEAVE THESE UNCHANGED
 ------------------------------------------------------------------
 
     - The MX record, once step 1 is done
-    - The mail.dentninja.co.za A record - MX now depends on it
+    - The new mail.dentninja.co.za A record - MX now depends on it
+    - The cpanel, webmail, ftp, autodiscover and autoconfig A records,
+      which should all remain on 196.41.122.211
     - The SPF TXT record
     - Any DKIM or DMARC records
     - Mail routing, which should remain local
@@ -128,6 +145,7 @@ validation for it should still succeed.
 SUMMARY OF THE CHANGE
 ------------------------------------------------------------------
 
+    mail        CNAME to apex     ->  A record on 196.41.122.211
     MX          dentninja.co.za   ->  mail.dentninja.co.za
     A (apex)    196.41.122.211    ->  the four GitHub IPs listed above
     CNAME www   dentninja.co.za   ->  obsidianstudiodesigns.github.io

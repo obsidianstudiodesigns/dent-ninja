@@ -11,43 +11,52 @@ DNS** so that `https://dentninja.co.za/` serves the new site directly.
 
 ---
 
-## ⚠️ Read this first — email will break if the order is wrong
+## ⚠️ Read this first — email breaks if the order is wrong
 
-The MX record currently points at the bare domain:
-
-```
-dentninja.co.za.   MX   0   dentninja.co.za.      <-- resolves to 196.41.122.211
-dentninja.co.za.   A        196.41.122.211
-```
-
-Mail is delivered by following that MX to the **A record of the domain itself**.
-So the moment the A record is changed to GitHub's IPs, mail for
-**justin@dentninja.co.za** would be routed to GitHub, which runs no mail server,
-and **every incoming email would bounce.**
-
-**The MX record must be repointed to a dedicated mail hostname first.**
-
-`mail.dentninja.co.za` already exists and already resolves to `196.41.122.211`,
-so no new host is needed:
+Mail currently depends on the domain's own A record along two paths:
 
 ```
-mail.dentninja.co.za.   A   196.41.122.211      (already in place)
+dentninja.co.za.        A       196.41.122.211
+mail.dentninja.co.za.   CNAME   dentninja.co.za     <-- follows the apex
+dentninja.co.za.        MX  0   dentninja.co.za     <-- follows the apex
 ```
 
-Please make the MX change, let it propagate, and only then change the A records.
-The current TTL is 14400 (4 hours), so please allow for that — or drop the TTL
-to 300 a day beforehand to make the switch quick and low-risk.
+The moment the apex A record points at GitHub, mail for
+**justin@dentninja.co.za** routes to GitHub, which runs no mail server, and
+**every incoming email bounces.**
+
+Repointing MX on its own is *not* enough — `mail.dentninja.co.za` is a CNAME to
+the apex, so it would follow the apex to GitHub too. The mail hostname has to
+become an independent A record first.
+
+(This also fixes a standards problem: per RFC 2181 an MX record must not resolve
+to a CNAME, which is what the zone currently does.)
 
 ---
 
-## Step 1 — Repoint MX (do this first, on its own)
+## Step 1 — Make mail independent (do this first, on its own)
 
-| Type | Name | Value | Priority |
+**Delete** this CNAME:
+
+| Type | Name | Value |
+|---|---|---|
+| CNAME | `mail.dentninja.co.za` | `dentninja.co.za` |
+
+**Add** this A record in its place:
+
+| Type | Name | Value | TTL |
 |---|---|---|---|
-| MX | `dentninja.co.za` | `mail.dentninja.co.za` | 0 |
+| A | `mail.dentninja.co.za` | `196.41.122.211` | 300 |
 
-Then **wait for the old TTL to expire** (up to 4 hours) and confirm mail is still
-being delivered before continuing.
+**Then** repoint MX at it:
+
+| Type | Name | Value | Priority | TTL |
+|---|---|---|---|---|
+| MX | `dentninja.co.za` | `mail.dentninja.co.za` | 0 | 300 |
+
+Then **wait for the old TTL to expire** (14400 = 4 hours) and confirm mail is
+still being delivered before continuing. Send a test message from an address
+off the domain, and reply to it.
 
 ---
 
@@ -94,7 +103,9 @@ canonical address the site declares.
 | Record | Reason |
 |---|---|
 | `MX` after Step 1 | mail delivery |
-| `mail.dentninja.co.za` A record | it's now what MX depends on |
+| The new `mail.dentninja.co.za` A record | it's what MX now depends on |
+| `cpanel`, `webmail`, `ftp` A records | panel, webmail and FTP access |
+| `autodiscover`, `autoconfig` A records | mail client auto-setup |
 | `TXT` SPF record | mail authentication |
 | Any DKIM / DMARC records | mail authentication |
 
@@ -116,6 +127,7 @@ editing SPF carries more risk than leaving it.)
 
 | Record | From | To |
 |---|---|---|
+| `mail` | CNAME to the apex | A record on `196.41.122.211` |
 | MX | `dentninja.co.za` | `mail.dentninja.co.za` |
 | A (apex) | `196.41.122.211` | GitHub's four IPs above |
 | CNAME www | `dentninja.co.za` | `obsidianstudiodesigns.github.io` |

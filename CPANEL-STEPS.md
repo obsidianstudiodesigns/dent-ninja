@@ -1,69 +1,112 @@
 # Pointing dentninja.co.za at the new site — cPanel walkthrough
 
 Do this in two sittings with a wait in between. Email breaks if the A records
-change before the MX record does, so the wait is not optional.
+change before the mail hostname is fixed, so the order is not optional.
 
 **Before you start:** change the cPanel password. It was emailed to you in plain
 text. *Preferences → Password & Security.*
 
 ---
 
-## Sitting 1 — the MX record (about 5 minutes)
+## Why the mail step comes first
 
-### 1. Check mail routing is set to Local
+Right now the zone looks like this:
+
+```
+dentninja.co.za.        A       196.41.122.211
+mail.dentninja.co.za.   CNAME   dentninja.co.za      <-- follows the apex
+dentninja.co.za.        MX  0   dentninja.co.za      <-- follows the apex
+```
+
+Both the MX record and the mail hostname ultimately resolve through the
+domain's own A record. So the moment that A record points at GitHub, mail for
+`justin@dentninja.co.za` is routed to GitHub — which runs no mail server — and
+every incoming message bounces.
+
+`mail.dentninja.co.za` has to become a **real A record** pointing at the mail
+server, so it stops depending on the apex. Then MX points at it.
+
+(As a bonus this fixes a standards problem: an MX record is not permitted to
+point at a CNAME, which is what the current setup effectively does.)
+
+---
+
+## Sitting 1 — make mail independent (about 10 minutes)
+
+### 1. Set mail routing to Local
 
 *Email → Email Routing*
 
-- Select `dentninja.co.za` from the dropdown
+- Select `dentninja.co.za`
 - Choose **Local Mail Exchanger**
 - Click **Change**
 
-Do this even if it looks right already. If it is left on "Automatically Detect
-Configuration", cPanel re-reads the DNS after step 3 below and can decide the
-domain's mail lives elsewhere — at which point it stops accepting mail for you.
-Setting it to Local explicitly removes that risk.
+Do this even if it looks correct already. Left on "Automatically Detect
+Configuration", cPanel re-reads DNS after step 4 and can decide your mail lives
+on another server, at which point it stops accepting mail for you.
 
 ### 2. Open the zone
 
 *Domains → Zone Editor* → find `dentninja.co.za` → click **Manage**
 
-### 3. Repoint MX
+### 3. Turn `mail` into an A record
 
-- Click the **MX** filter tab
-- You'll see one record: `dentninja.co.za` → `dentninja.co.za`, priority 0
+Click the **CNAME** filter tab.
+
+- Find `mail.dentninja.co.za` → value `dentninja.co.za`
+- Click **Delete**, and confirm
+
+Now go back and click **+ A Record**:
+
+| Field | Value |
+|---|---|
+| Name | `mail` |
+| Record Type | A |
+| TTL | `300` |
+| Address | `196.41.122.211` |
+
+Delete the CNAME **before** adding the A record — cPanel won't let both exist
+with the same name.
+
+Check the **A** tab afterwards and confirm `mail.dentninja.co.za` is listed at
+`196.41.122.211`.
+
+### 4. Repoint the MX record
+
+Click the **MX** filter tab.
+
+- One record: `dentninja.co.za` → `dentninja.co.za`, priority 0
 - Click **Edit**
-- Change the destination to: `mail.dentninja.co.za`
-- Leave priority as **0**
-- Set **TTL** to `300`
+- Destination: `mail.dentninja.co.za`
+- Priority: **0**
+- TTL: `300`
 - **Save Record**
 
-### 4. Drop the TTL on the records you'll change next
+### 5. Drop the TTL on what changes next
 
-Still in Manage, click the **A** filter tab:
+On the **A** tab, edit the `dentninja.co.za` record and set TTL to `300`.
+On the **CNAME** tab, do the same for `www`.
 
-- Edit the `dentninja.co.za` A record → set TTL to `300` → Save
-- Edit the `www` record → set TTL to `300` → Save
+This makes sitting 2 take minutes rather than hours.
 
-Changing the TTL now means sitting 2 takes 5 minutes instead of 4 hours.
-
-### 5. Stop
+### 6. Stop and wait
 
 Wait **at least 4 hours** — overnight is easiest. The old 4-hour TTL has to
-expire before the internet picks up any of this.
+expire before any of this reaches the wider internet.
 
 ---
 
 ## Between sittings — confirm mail still works
 
-Do not skip this. It is the whole reason for the wait.
+Do not skip this. It is the entire reason for the wait.
 
-1. From Gmail (or any address **not** on this domain), send a test email to
+1. From Gmail — or any address **not** on this domain — send a test message to
    `justin@dentninja.co.za`
 2. Confirm it arrives
-3. Reply from `justin@dentninja.co.za` and confirm the reply arrives back
+3. Reply from `justin@dentninja.co.za` and confirm the reply lands
 
-If mail is flowing, the risky part is done. If it isn't, stop and say so — the
-MX change is reversible and nothing else has been touched yet.
+If mail is flowing, the risky part is behind you. If it isn't, stop and tell me.
+Nothing else has been touched yet and the MX change reverses cleanly.
 
 ---
 
@@ -71,22 +114,21 @@ MX change is reversible and nothing else has been touched yet.
 
 *Domains → Zone Editor → dentninja.co.za → Manage → **A** filter tab*
 
-### 6. Change the main A record
+### 7. Change the apex A record
 
-- Find the record where Name is `dentninja.co.za.` and value is `196.41.122.211`
-- Click **Edit**
-- Change the value to `185.199.108.153`
-- TTL `300`
-- **Save Record**
+- Find the record named exactly `dentninja.co.za.`, value `196.41.122.211`
+- **Edit** → change the value to `185.199.108.153` → TTL `300` → **Save Record**
 
-> Only change the record whose name is exactly `dentninja.co.za.`
-> **Leave `mail.dentninja.co.za` on `196.41.122.211`.** Your mail now depends on
-> it. If you see other subdomains (cpanel, webmail, ftp, autodiscover) pointing
-> at `196.41.122.211`, leave those alone too.
+> Change **only** the record whose name is exactly `dentninja.co.za.`
+>
+> Leave every one of these exactly as they are — they are all separate A records
+> on `196.41.122.211` and none of them should move:
+>
+> `mail` · `cpanel` · `webmail` · `ftp` · `autodiscover` · `autoconfig`
 
-### 7. Add the other three
+### 8. Add the other three
 
-Back on the Zone Editor screen, use **+ A Record** three times:
+Use **+ A Record** three times:
 
 | Name | Record Type | TTL | Address |
 |---|---|---|---|
@@ -94,34 +136,29 @@ Back on the Zone Editor screen, use **+ A Record** three times:
 | `dentninja.co.za` | A | 300 | `185.199.110.153` |
 | `dentninja.co.za` | A | 300 | `185.199.111.153` |
 
-All four must be present — they're GitHub's load-balanced set, not options.
+All four must be present — they are GitHub's load-balanced set, not options to
+choose between.
 
-### 8. Point www at GitHub
+### 9. Point www at GitHub
 
-Click the **CNAME** filter tab and look for `www`.
+**CNAME** tab → find `www` (currently pointing at `dentninja.co.za`):
 
-**If a www CNAME exists:** Edit it, set the value to
-`obsidianstudiodesigns.github.io`, TTL 300, Save.
+- **Edit** → value `obsidianstudiodesigns.github.io` → TTL `300` → **Save**
 
-**If www appears under the A tab instead:** delete that A record, then use
-**+ CNAME Record**:
+If `www` turns out to be an A record instead, delete it and add a CNAME with the
+same values.
 
-| Name | Record Type | TTL | Record |
-|---|---|---|---|
-| `www` | CNAME | 300 | `obsidianstudiodesigns.github.io` |
+### 10. Tell me it's done
 
-### 9. Tell me it's done
-
-I'll confirm the records are live worldwide, then finish the GitHub side —
-adding the domain to the repository and enabling HTTPS. That part takes a few
-minutes and the certificate is issued automatically.
+I'll verify the records are live, then finish the GitHub side — adding the
+domain to the repository and enabling HTTPS. The certificate is issued
+automatically and usually takes a few minutes.
 
 ---
 
 ## Optional IPv6
 
-If you want it, add four AAAA records on `dentninja.co.za`. Not required — the
-site works fine without them.
+Four AAAA records on `dentninja.co.za`. Not required; the site works without.
 
 ```
 2606:50c0:8000::153
@@ -136,21 +173,28 @@ site works fine without them.
 
 | Record | Why |
 |---|---|
-| `mail.dentninja.co.za` A record | your mail delivery now depends on it |
-| The SPF TXT record | mail authentication; still valid as-is |
+| `mail` A record (after step 3) | your mail delivery depends on it |
+| `cpanel`, `webmail`, `ftp` | control panel, webmail and FTP access |
+| `autodiscover`, `autoconfig` | automatic mail client setup |
+| The SPF TXT record | mail authentication; still correct as-is |
 | Any DKIM / DMARC records | mail authentication |
-| `cpanel`, `webmail`, `ftp`, `autodiscover` | control panel and mail client access |
 
-The SPF record stays correct after the move because the mail server is listed
-explicitly as `ip4:196.41.122.211`, not only via the `+a` mechanism.
+The SPF record survives the move untouched. It reads:
+
+```
+v=spf1 ip4:196.41.122.211 include:spamkill.cybersmart.co.za +a +mx ~all
+```
+
+The mail server is authorised explicitly by `ip4:196.41.122.211`, and `+mx` will
+now resolve through the new `mail` A record to the same address.
 
 ---
 
 ## Leave WordPress alone for now
 
-Don't delete the WordPress install or cancel anything. It costs nothing to leave
-in place, and if something needs backing out, putting the A record back to
-`196.41.122.211` restores the old site immediately.
+Don't delete the WordPress install or cancel any hosting. It costs nothing to
+leave in place, and if anything needs backing out, setting the apex A record
+back to `196.41.122.211` restores the old site immediately.
 
 Clean it up a few weeks after the new site is confirmed live.
 
@@ -163,3 +207,4 @@ Clean it up a few weeks after the new site is confirmed live.
 - `http://dentninja.co.za/` — redirects to HTTPS
 - Email to and from `justin@dentninja.co.za` — still working
 - `https://dentninja.co.za:2083` — cPanel still reachable
+- `https://webmail.dentninja.co.za` — webmail still reachable
