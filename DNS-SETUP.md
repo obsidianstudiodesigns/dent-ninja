@@ -123,14 +123,33 @@ editing SPF carries more risk than leaving it.)
 
 ---
 
-## Old site URLs
+## Old site URLs — nothing to preserve
 
-The new site is a single page. If the current site has other pages that Google
-has indexed (`/about`, `/contact`, `/services`, etc.), those will 404 once the
-domain moves, which loses whatever ranking they hold.
+Checked directly rather than asked for. The current site is a stock WordPress +
+Elementor install; its sitemap lists only the defaults:
 
-**Please send a list of the current site's live URLs** before the change. If it's
-a single page already, just confirm that and nothing further is needed.
+```
+/                             "Elementor #46" placeholder
+/2026/03/16/hello-world/      default WordPress post
+/sample-page/                 default WordPress page
+/hello-theme-26/              default theme page
+/category/uncategorized/      default category
+```
+
+None of these hold any ranking worth keeping, so no redirects are needed. They
+will 404 after the cutover and drop out of the index on their own.
+
+---
+
+## SSL on the mail hostname
+
+Once the apex A record points at GitHub, the host's AutoSSL can no longer
+validate `dentninja.co.za` over HTTP. That is expected — GitHub issues the
+website certificate.
+
+`mail.dentninja.co.za` keeps pointing at the mail server, so validation for it
+still succeeds and secure IMAP/POP/SMTP are unaffected. Worth asking the host to
+confirm, since a lapsed mail certificate is a quiet failure.
 
 ---
 

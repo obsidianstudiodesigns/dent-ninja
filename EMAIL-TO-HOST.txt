@@ -1,27 +1,32 @@
+To:      support@cybersmart.co.za
 Subject: dentninja.co.za - DNS change request (please action the MX step first)
 
 
-Hi,
+Good day,
 
-We have a new website for dentninja.co.za. It is hosted on GitHub Pages, and we
-would like the domain pointed at it via DNS so that https://dentninja.co.za/
-serves the new site directly.
+Account holder: Jason Colyn
+Domain: dentninja.co.za
+Hosting package: Orange (server cpanel41)
 
-Could you please make the DNS changes below on the dentninja.co.za zone.
+We have a new website for dentninja.co.za which is hosted externally on GitHub
+Pages. We would like the domain pointed at it via DNS, so that
+https://dentninja.co.za/ serves the new site directly.
 
-IMPORTANT: please do these in the order given. There is an email risk in step 2
-that is explained below, and it will bounce all incoming mail if the A records
-are changed first.
+Email must continue to be hosted with yourselves and is not moving. Only the
+website is changing.
 
-Please note this must be a DNS change - not "domain forwarding", "URL
-forwarding" or "URL masking". Those would leave the visitor's address bar
-showing a github.io address or load the site inside a frame, which we
-specifically need to avoid. The records below keep the address bar on
-dentninja.co.za.
+Could you please action the DNS changes set out below on the dentninja.co.za
+zone, in the order given. There is an email risk in step 2 which is explained
+under step 1, and getting the order wrong will bounce all incoming mail.
+
+To be clear, this needs to be a DNS record change - not "domain forwarding",
+"URL forwarding" or "URL masking". Those would leave the visitor's address bar
+showing a github.io address, or load the site inside a frame, which we
+specifically need to avoid.
 
 
 ------------------------------------------------------------------
-STEP 1 - REPOINT THE MX RECORD (please do this on its own, first)
+STEP 1 - REPOINT THE MX RECORD (please action on its own, first)
 ------------------------------------------------------------------
 
 The MX record currently points at the bare domain:
@@ -29,23 +34,25 @@ The MX record currently points at the bare domain:
     dentninja.co.za.   MX   0   dentninja.co.za.
     dentninja.co.za.   A        196.41.122.211
 
-Because mail follows that MX to the domain's own A record, changing the A record
-in step 2 would send mail for justin@dentninja.co.za to GitHub, which runs no
-mail server. All incoming email would bounce.
+Because mail follows that MX to the domain's own A record, changing the A
+record in step 2 would route mail for the domain to GitHub, which runs no mail
+server, and all incoming email would bounce.
 
-mail.dentninja.co.za already exists and already resolves to 196.41.122.211, so
-please change the MX to that hostname:
+Please change the MX to the dedicated mail hostname:
 
-    Type: MX
-    Name: dentninja.co.za
-    Value: mail.dentninja.co.za
+    Type:     MX
+    Name:     dentninja.co.za
+    Value:    mail.dentninja.co.za
     Priority: 0
 
-The current TTL is 14400 (4 hours). Please allow that to expire and confirm mail
-is still being delivered normally before moving on to step 2.
+mail.dentninja.co.za already exists and already resolves to 196.41.122.211, so
+no new record is needed for it. This is also the hostname given as our POP3 and
+SMTP server in your welcome email, so mail delivery is unaffected by the change.
 
-If it is easier, you are welcome to drop the TTL to 300 a day beforehand so the
-whole change can be completed quickly.
+The current TTL is 14400 (4 hours). Please allow that to expire and confirm mail
+is still being delivered before moving on to step 2. If it is easier, you are
+welcome to drop the TTL to 300 beforehand so the change can be completed in one
+session.
 
 
 ------------------------------------------------------------------
@@ -56,16 +63,16 @@ Please REMOVE the existing apex A record:
 
     196.41.122.211
 
-and ADD these four A records on dentninja.co.za:
+and ADD the following four A records on dentninja.co.za:
 
     A    dentninja.co.za    185.199.108.153
     A    dentninja.co.za    185.199.109.153
     A    dentninja.co.za    185.199.110.153
     A    dentninja.co.za    185.199.111.153
 
-All four are required - they are GitHub's load-balanced set, not alternatives.
+All four are required. They are GitHub's load-balanced set, not alternatives.
 
-Optionally, please also add IPv6:
+Please also add the IPv6 records if your panel supports them:
 
     AAAA    dentninja.co.za    2606:50c0:8000::153
     AAAA    dentninja.co.za    2606:50c0:8001::153
@@ -81,59 +88,62 @@ www is currently a CNAME to the apex. Please change it to:
 
     CNAME    www    obsidianstudiodesigns.github.io
 
-(A trailing dot may be needed depending on your control panel.)
+(A trailing dot may be required depending on the panel.)
 
 
 ------------------------------------------------------------------
 PLEASE LEAVE THESE UNCHANGED
 ------------------------------------------------------------------
 
-    - The MX record, after step 1
-    - The mail.dentninja.co.za A record (MX now depends on it)
+    - The MX record, once step 1 is done
+    - The mail.dentninja.co.za A record - MX now depends on it
     - The SPF TXT record
     - Any DKIM or DMARC records
+    - Mail routing, which should remain local
 
 For reference, the current SPF is:
 
     v=spf1 ip4:196.41.122.211 include:spamkill.cybersmart.co.za +a +mx ~all
 
-This stays valid after the change, because the mail server is listed explicitly
-as ip4:196.41.122.211 rather than only via the +a mechanism. Please leave it
+This remains valid after the change, as the mail server is listed explicitly as
+ip4:196.41.122.211 rather than only via the +a mechanism. Please leave it
 exactly as it is.
 
 
 ------------------------------------------------------------------
-SUMMARY
+ONE REQUEST REGARDING SSL
 ------------------------------------------------------------------
 
-    MX          dentninja.co.za    ->  mail.dentninja.co.za
-    A (apex)    196.41.122.211     ->  the four GitHub IPs above
-    CNAME www   dentninja.co.za    ->  obsidianstudiodesigns.github.io
-    Everything else                    unchanged
+Once the apex A record points to GitHub, AutoSSL will no longer be able to
+validate dentninja.co.za over HTTP on your server. That is expected, and the
+website certificate is handled on the GitHub side.
 
-
-------------------------------------------------------------------
-ONE THING WE NEED FROM YOU
-------------------------------------------------------------------
-
-The new site is a single page. If the current site has other pages that are
-indexed by Google (/about, /contact, /services and so on), those will return 404
-after the move and we will lose their search ranking.
-
-Could you please send us a list of the current site's live URLs, so we can set up
-redirects for them. If the current site is already a single page, please just
-confirm that and nothing further is needed.
+Could you please confirm that the certificate covering mail.dentninja.co.za
+will continue to be issued and renewed, so that secure IMAP/POP/SMTP connections
+are not affected. That hostname will continue to resolve to your server, so
+validation for it should still succeed.
 
 
 ------------------------------------------------------------------
+SUMMARY OF THE CHANGE
+------------------------------------------------------------------
 
-Nothing else is required from your side after the DNS records are in - we will
-handle the certificate and HTTPS on the GitHub end.
+    MX          dentninja.co.za   ->  mail.dentninja.co.za
+    A (apex)    196.41.122.211    ->  the four GitHub IPs listed above
+    CNAME www   dentninja.co.za   ->  obsidianstudiodesigns.github.io
+    Everything else                   unchanged
 
-Could you please confirm once each step is done, and let us know if you need
+No redirects are required for the existing site. Its only indexed pages are the
+default WordPress ones (/sample-page/, /hello-world/, /hello-theme-26/ and
+/category/uncategorized/), none of which we need to retain.
+
+Nothing further is needed from your side once the records are in place. We will
+handle the certificate and HTTPS enforcement on the GitHub end.
+
+Could you please confirm once each step is complete, and let us know if you need
 anything from us to authorise the change.
 
-Thanks very much,
+Kind regards,
 
 [Your name]
 [Your contact number]
