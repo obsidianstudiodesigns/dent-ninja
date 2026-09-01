@@ -200,11 +200,44 @@ Clean it up a few weeks after the new site is confirmed live.
 
 ---
 
-## What "done" looks like
+## Done — live as of 1 September 2026
 
-- `https://dentninja.co.za/` — the new site, padlock in the address bar
-- `https://www.dentninja.co.za/` — redirects to the non-www address
-- `http://dentninja.co.za/` — redirects to HTTPS
-- Email to and from `justin@dentninja.co.za` — still working
-- `https://dentninja.co.za:2083` — cPanel still reachable
-- `https://webmail.dentninja.co.za` — webmail still reachable
+All verified against the live domain:
+
+| Check | Result |
+|---|---|
+| `https://dentninja.co.za/` | 200, Let's Encrypt cert valid to 30 Nov 2026 |
+| Certificate covers | `dentninja.co.za` **and** `www.dentninja.co.za` |
+| `http://` | 301 → HTTPS (Enforce HTTPS is on) |
+| `https://www.` | 301 → non-www, the canonical address |
+| Mail — MX, and ports 25/587/993/995 | unchanged and open |
+| Site audit | no console errors, no failed requests, no overflow 320–2560px |
+
+---
+
+## One thing that changed: the cPanel address
+
+The apex now points at GitHub, so **`https://dentninja.co.za:2083` no longer
+works** — the address Cybersmart gave in the welcome email.
+
+Use these instead (both verified reachable):
+
+```
+cPanel    https://cpanel.dentninja.co.za:2083
+Webmail   https://webmail.dentninja.co.za:2096
+```
+
+Worth bookmarking, as the old address will simply time out rather than give a
+useful error.
+
+---
+
+## Still outstanding
+
+- **Change the cPanel password.** It was emailed in plain text.
+- **Leave WordPress in place** for a few weeks as a fallback. To roll back, set
+  the apex A record back to `196.41.122.211`.
+- **Google Search Console** — add `dentninja.co.za` as a new property and submit
+  the sitemap. The old Pages URL is a separate property and won't carry over.
+- **Google Business Profile** — still the single biggest lever for local ranking,
+  and nothing on the site substitutes for it.
