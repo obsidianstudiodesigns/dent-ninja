@@ -127,8 +127,11 @@
       var vh = window.innerHeight || document.documentElement.clientHeight;
       for (var i = pending.length - 1; i >= 0; i--) {
         var r = pending[i].getBoundingClientRect();
-        // visible, or already scrolled past
-        if (r.top < vh * 0.9 && r.bottom > 0) {
+        // visible, or already scrolled past. The bottom is deliberately not
+        // checked: an anchor jump or a fast scroll can carry an element clean
+        // over the viewport, and requiring it to still be on screen left those
+        // stuck at opacity 0 for good.
+        if (r.top < vh * 0.9) {
           pending[i].classList.add('is-in');
           pending.splice(i, 1);
         }
@@ -447,6 +450,66 @@
   initHeroVideo();
   initMisc();
   initForm();
+
+  /* ---------------------------------------------------------------
+     Work gallery lightbox.
+     Progressive: without JS the buttons simply do nothing and the
+     grid still reads fine, so no content is ever gated behind this.
+     Only one <video> plays at a time.
+  --------------------------------------------------------------- */
+  function initWork() {
+    var lb = document.getElementById('lb');
+    var img = document.getElementById('lbImg');
+    var shots = Array.prototype.slice.call(document.querySelectorAll('.work__shot'));
+
+    if (lb && img && typeof lb.showModal === 'function') {
+      var last = null;
+      shots.forEach(function (b) {
+        b.addEventListener('click', function () {
+          last = b;
+          img.src = b.getAttribute('data-full');
+          img.alt = b.getAttribute('data-alt') || '';
+          lb.showModal();
+        });
+      });
+      // Cleanup is done explicitly rather than from the dialog's own 'close'
+      // event: that event does not fire in every engine, and relying on it
+      // strands keyboard focus on the hidden close button.
+      var finish = function () {
+        if (lb.open) lb.close();
+        img.removeAttribute('src');
+        if (last) { last.focus(); last = null; }
+      };
+      var closeBtn = document.getElementById('lbClose');
+      if (closeBtn) closeBtn.addEventListener('click', finish);
+      lb.addEventListener('click', function (e) {
+        if (e.target === lb) finish();            // click the backdrop
+      });
+      lb.addEventListener('cancel', function (e) { // Esc
+        e.preventDefault();
+        finish();
+      });
+      lb.addEventListener('close', finish);
+    } else {
+      // no <dialog> support: let the button fall back to opening the file
+      shots.forEach(function (b) {
+        b.addEventListener('click', function () {
+          var u = b.getAttribute('data-full');
+          if (u) window.open(u, '_blank', 'noopener');
+        });
+      });
+    }
+
+    var vids = Array.prototype.slice.call(document.querySelectorAll('.work__vid'));
+    vids.forEach(function (v) {
+      v.addEventListener('play', function () {
+        vids.forEach(function (o) { if (o !== v && !o.paused) o.pause(); });
+      });
+    });
+  }
+
+
+  initWork();
   initTilt();
   initHeroParallax();
   initMagnetic();

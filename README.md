@@ -130,6 +130,45 @@ line. Drop a sixth photo in and swap the `creases-*.jpg` pair to replace it.
 
 ---
 
+## Our work gallery
+
+Eight before/after photos and seven repair clips from the client's own jobs,
+under `#work`. Three things had to be dealt with before any of it could be
+published.
+
+**The generator's star watermark** sat on five of the eight photos at a fixed
+inset — 48x48 px, 32 px from the right and bottom edge. It is inpainted rather
+than cropped, because these are before/after composites and trimming the right
+edge would have eaten into the "after" half.
+
+**A CapCut watermark** was burned into the bottom-left of four clips. The mask is
+learned per clip from the temporal median of that corner (the overlay is static,
+the footage behind it is not), then inpainted, so nothing is cropped away.
+
+**Customer number plates.** Three clips showed them. An automated plate detector
+was tried first and rejected: it missed the one plate that was actually legible
+while blurring random panels elsewhere. What ships instead is measured by
+inspection:
+
+| Clip | Treatment |
+|---|---|
+| `work-05` | plate `HFB 413` legible in the tailgate shot — pixelated, t 25–36 s |
+| `work-02` | first 6 s showed front and rear plates — clip starts after it |
+| `work-06` | first 27 s was a walk-around with plates throughout — clip starts after it |
+
+The trimmed segments were whole-car beauty shots; the repair work itself is
+intact. If the customers have given permission to show their vehicles, the trims
+and the redaction can be lifted — the masters are untouched.
+
+Raw footage totalled 60 MB; the delivered set is 10.6 MB. Clips are silent
+(audio stripped), `preload="none"` behind a poster, so nothing downloads until a
+visitor presses play, and only one plays at a time.
+
+The masters stay in `Work done/`, which is git-ignored — 60 MB of phone video
+does not belong in the repository.
+
+---
+
 ## SEO
 
 On-page work that is done:
@@ -145,8 +184,13 @@ On-page work that is done:
   requires FAQ rich-result content to be present on the page; schema that
   invents answers is a manual-action risk, so the two are generated from one
   source and verified equal.
-- An `image:image` sitemap, and a heading that carries the primary keyword and
-  locality ("Paintless dent removal in Boksburg & the East Rand").
+- An `image:image` and `video:video` sitemap, and a heading that carries the
+  primary keyword and locality ("Paintless dent removal in Boksburg & the East
+  Rand").
+- **`ImageObject` and `VideoObject`** nodes for every gallery item, each with a
+  real duration, thumbnail and caption. `uploadDate` is the date the media went
+  on the site, which is what the property actually means — nothing is
+  backdated.
 
 Deliberately **not** included: opening hours, price ranges, `aggregateRating`
 and reviews. None of those are known, and inventing them in structured data is

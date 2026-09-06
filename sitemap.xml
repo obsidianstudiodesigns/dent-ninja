@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+        xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
   <url>
     <loc>https://dentninja.co.za/</loc>
-    <lastmod>2026-08-29</lastmod>
+    <lastmod>2026-09-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
     <image:image>
@@ -14,5 +15,115 @@
       <image:loc>https://dentninja.co.za/assets/img/og-image.jpg</image:loc>
       <image:title>Dent Ninja — mobile PDR, Boksburg and the East Rand</image:title>
     </image:image>
+    <image:image>
+      <image:loc>https://dentninja.co.za/assets/img/work/door-dent-white-sedan-896.jpg</image:loc>
+      <image:title>Door skin — white sedan</image:title>
+      <image:caption>Before and after: a dent in the door skin of a white sedan, worked back flat with the original paint untouched.</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://dentninja.co.za/assets/img/work/body-line-crease-silver-1024.jpg</image:loc>
+      <image:title>Body-line crease — silver panel</image:title>
+      <image:caption>Before and after: a crease running through the body line of a silver panel, straightened so the reflection runs clean again.</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://dentninja.co.za/assets/img/work/tailgate-dent-white-bakkie-1100.jpg</image:loc>
+      <image:title>Tailgate — white vehicle</image:title>
+      <image:caption>Before and after: a dent above the number plate recess on a white tailgate, pushed back to factory shape.</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://dentninja.co.za/assets/img/work/door-crease-white-hatch-1100.jpg</image:loc>
+      <image:title>Door crease — white hatchback</image:title>
+      <image:caption>Before and after: a sharp crease in the door of a white hatchback, removed with no filler and no respray.</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://dentninja.co.za/assets/img/work/reflection-check-close-up-896.jpg</image:loc>
+      <image:title>Reading the panel under the board</image:title>
+      <image:caption>Before and after close-up: the reflection board held over a repaired panel, showing the line pulled straight.</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://dentninja.co.za/assets/img/work/door-handle-dent-champagne-896.jpg</image:loc>
+      <image:title>Below the door handle — champagne</image:title>
+      <image:caption>Before and after: a dent below the door handle on a champagne-coloured car, worked out from behind the skin.</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://dentninja.co.za/assets/img/work/bonnet-dent-blue-sedan-1100.jpg</image:loc>
+      <image:title>Bonnet dent — blue sedan</image:title>
+      <image:caption>Before and after: a dent on the bonnet of a blue sedan, with the reflection lines running straight again.</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://dentninja.co.za/assets/img/work/quarter-panel-dent-orange-1100.jpg</image:loc>
+      <image:title>Rear quarter — orange crossover</image:title>
+      <image:caption>Before and after: a dent in the rear quarter panel of an orange crossover, repaired without touching the paint.</image:caption>
+    </image:image>
+    <video:video>
+      <video:thumbnail_loc>https://dentninja.co.za/assets/img/work/work-01-poster.jpg</video:thumbnail_loc>
+      <video:title>Rear quarter panel — paintless dent removal, Boksburg</video:title>
+      <video:description>Working a dent out of the rear quarter panel above the wheel arch on a red hatchback.</video:description>
+      <video:content_loc>https://dentninja.co.za/assets/video/work/work-01.mp4</video:content_loc>
+      <video:duration>62</video:duration>
+      <video:publication_date>2026-09-06</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:live>no</video:live>
+    </video:video>
+    <video:video>
+      <video:thumbnail_loc>https://dentninja.co.za/assets/img/work/work-02-poster.jpg</video:thumbnail_loc>
+      <video:title>Fuel flap dent — paintless dent removal, Boksburg</video:title>
+      <video:description>A dent beside the fuel flap on a white BMW brought back flat and checked under the reflection board.</video:description>
+      <video:content_loc>https://dentninja.co.za/assets/video/work/work-02.mp4</video:content_loc>
+      <video:duration>33</video:duration>
+      <video:publication_date>2026-09-06</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:live>no</video:live>
+    </video:video>
+    <video:video>
+      <video:thumbnail_loc>https://dentninja.co.za/assets/img/work/work-03-poster.jpg</video:thumbnail_loc>
+      <video:title>Reaching behind the panel — paintless dent removal, Boksburg</video:title>
+      <video:description>Access from underneath so the dent can be pushed out from the inside, leaving the paint alone.</video:description>
+      <video:content_loc>https://dentninja.co.za/assets/video/work/work-03.mp4</video:content_loc>
+      <video:duration>16</video:duration>
+      <video:publication_date>2026-09-06</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:live>no</video:live>
+    </video:video>
+    <video:video>
+      <video:thumbnail_loc>https://dentninja.co.za/assets/img/work/work-04-poster.jpg</video:thumbnail_loc>
+      <video:title>Long crease, worked in stages — paintless dent removal, Boksburg</video:title>
+      <video:description>A long crease in a white panel brought down gradually, read the whole way under the reflection board.</video:description>
+      <video:content_loc>https://dentninja.co.za/assets/video/work/work-04.mp4</video:content_loc>
+      <video:duration>114</video:duration>
+      <video:publication_date>2026-09-06</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:live>no</video:live>
+    </video:video>
+    <video:video>
+      <video:thumbnail_loc>https://dentninja.co.za/assets/img/work/work-05-poster.jpg</video:thumbnail_loc>
+      <video:title>Tailgate and headlight area — paintless dent removal, Boksburg</video:title>
+      <video:description>Panel work around the tailgate and headlight of a silver car, returning the shape without filler.</video:description>
+      <video:content_loc>https://dentninja.co.za/assets/video/work/work-05.mp4</video:content_loc>
+      <video:duration>58</video:duration>
+      <video:publication_date>2026-09-06</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:live>no</video:live>
+    </video:video>
+    <video:video>
+      <video:thumbnail_loc>https://dentninja.co.za/assets/img/work/work-06-poster.jpg</video:thumbnail_loc>
+      <video:title>Door skin — Porsche 911 — paintless dent removal, Boksburg</video:title>
+      <video:description>A dent in the door skin of a Porsche 911 read under the board and worked out by hand.</video:description>
+      <video:content_loc>https://dentninja.co.za/assets/video/work/work-06.mp4</video:content_loc>
+      <video:duration>27</video:duration>
+      <video:publication_date>2026-09-06</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:live>no</video:live>
+    </video:video>
+    <video:video>
+      <video:thumbnail_loc>https://dentninja.co.za/assets/img/work/work-07-poster.jpg</video:thumbnail_loc>
+      <video:title>Tool work behind the door skin — paintless dent removal, Boksburg</video:title>
+      <video:description>Tool work behind a champagne door skin, watching the body line come back under the reflection board.</video:description>
+      <video:content_loc>https://dentninja.co.za/assets/video/work/work-07.mp4</video:content_loc>
+      <video:duration>54</video:duration>
+      <video:publication_date>2026-09-06</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:live>no</video:live>
+    </video:video>
   </url>
 </urlset>

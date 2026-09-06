@@ -10,3 +10,6 @@ desktop.ini
 
 # node (not used today, but keeps the repo clean if tooling is added later)
 node_modules/
+
+# client media masters (60 MB) - processed copies live in assets/
+Work done/

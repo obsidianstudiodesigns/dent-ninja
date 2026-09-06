@@ -1068,3 +1068,103 @@ button{background:none;border:0;cursor:pointer}
   background:linear-gradient(90deg,transparent,var(--arc) 22%,#6E4BE0 50%,var(--red-500) 78%,transparent);
   opacity:.5;
 }
+
+/* ============================================================
+   OUR WORK — before/after gallery + repair clips
+   The photos are before/after composites at mixed aspect ratios,
+   so they are never cropped to a uniform tile. A column layout
+   lets each keep its own shape.
+   ============================================================ */
+.work{position:relative}
+.work::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(60% 45% at 12% 0%, rgba(0,210,252,.10), transparent 70%),
+    radial-gradient(55% 45% at 88% 100%, rgba(255,50,0,.09), transparent 70%);
+}
+.work>.wrap{position:relative}
+
+.work__sub{
+  margin:2.6rem 0 .5rem;font-family:var(--f-head,inherit);
+  font-size:clamp(1.05rem,2.2vw,1.35rem);letter-spacing:.02em;
+  color:var(--chrome-50);
+}
+.work__sub::after{
+  content:"";display:block;width:52px;height:2px;margin-top:.5rem;
+  background:linear-gradient(90deg,var(--arc),transparent);
+}
+.work__note{margin:.1rem 0 1.2rem;color:var(--smoke);font-size:.9rem}
+
+.work__grid{
+  list-style:none;margin:1.1rem 0 0;padding:0;
+  columns:3;column-gap:1.1rem;
+}
+.work__grid--vid{columns:3}
+@media (max-width:1000px){ .work__grid,.work__grid--vid{columns:2} }
+@media (max-width:600px){ .work__grid,.work__grid--vid{columns:1} }
+
+.work__i{
+  break-inside:avoid;-webkit-column-break-inside:avoid;
+  margin:0 0 1.1rem;display:inline-block;width:100%;
+}
+
+.work__shot{
+  display:block;width:100%;padding:0;border:0;cursor:zoom-in;
+  background:var(--ink-750);border-radius:14px;overflow:hidden;
+  position:relative;line-height:0;
+  box-shadow:0 10px 30px rgba(0,0,0,.35);
+  outline:1px solid var(--line);
+  transition:transform .4s var(--ease-out,ease), outline-color .3s ease;
+}
+.work__shot img{display:block;width:100%;height:auto}
+.work__shot:hover,.work__shot:focus-visible{
+  transform:translateY(-3px);outline-color:var(--arc-dim);
+}
+.work__zoom{
+  position:absolute;right:.6rem;bottom:.6rem;width:34px;height:34px;
+  display:grid;place-items:center;border-radius:9px;
+  background:rgba(6,9,19,.72);backdrop-filter:blur(3px);
+  opacity:0;transform:translateY(4px);transition:opacity .3s,transform .3s;
+}
+.work__zoom svg{width:17px;height:17px;fill:var(--chrome-50)}
+.work__shot:hover .work__zoom,.work__shot:focus-visible .work__zoom{opacity:1;transform:none}
+
+.work__vid{
+  display:block;width:100%;height:auto;border-radius:14px;
+  background:#000;outline:1px solid var(--line);
+  box-shadow:0 10px 30px rgba(0,0,0,.35);
+}
+.work__cap{
+  margin:.55rem .1rem 0;color:var(--smoke);
+  font-size:.86rem;line-height:1.5;
+}
+.work__cap b{color:var(--chrome-100);font-weight:600}
+.work__len{
+  display:inline-block;margin-left:.35rem;padding:.05rem .38rem;
+  border:1px solid var(--line-2);border-radius:5px;
+  font-size:.72rem;color:var(--arc-300);vertical-align:1px;
+}
+
+/* lightbox */
+.lb{
+  border:0;padding:0;background:transparent;
+  max-width:96vw;max-height:96vh;overflow:visible;
+}
+.lb::backdrop{background:rgba(2,4,10,.88)}
+.lb__img{
+  display:block;max-width:92vw;max-height:88vh;width:auto;height:auto;
+  border-radius:12px;box-shadow:0 30px 80px rgba(0,0,0,.6);
+}
+.lb__x{
+  position:absolute;top:-14px;right:-14px;width:40px;height:40px;
+  border-radius:50%;border:1px solid var(--line-2);cursor:pointer;
+  background:var(--ink-800);color:var(--chrome-50);
+  font-size:1.5rem;line-height:1;display:grid;place-items:center;
+}
+.lb__x:hover{background:var(--red-600);border-color:var(--red-500)}
+@media (max-width:600px){ .lb__x{top:6px;right:6px} }
+
+@media (prefers-reduced-motion:reduce){
+  .work__shot,.work__zoom{transition:none}
+  .work__shot:hover,.work__shot:focus-visible{transform:none}
+}
